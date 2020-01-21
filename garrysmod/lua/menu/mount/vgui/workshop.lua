@@ -18,7 +18,7 @@ surface.CreateFont( "WorkshopLarge", {
 })
 
 local pnlRocket			= vgui.RegisterFile( "addon_rocket.lua" )
-local matProgressCog	= Material( "gui/progress_cog.png", "nocull smooth mips" )
+local matProgressCog	= Material( "gui/progress_cog.png", "nocull smooth" )
 local matHeader			= Material( "gui/steamworks_header.png" )
 
 AccessorFunc( PANEL, "m_bDrawProgress", "DrawProgress", FORCE_BOOL )
@@ -26,7 +26,7 @@ AccessorFunc( PANEL, "m_bDrawProgress", "DrawProgress", FORCE_BOOL )
 function PANEL:Init()
 
 	self.Label = self:Add( "DLabel" )
-	self.Label:SetText( "Updating Subscriptions..." )
+	self.Label:SetText( "..." )
 	self.Label:SetFont( "WorkshopLarge" )
 	self.Label:SetTextColor( Color( 255, 255, 255, 200 ) )
 	self.Label:Dock( TOP )
@@ -34,13 +34,13 @@ function PANEL:Init()
 	self.Label:SetContentAlignment( 5 )
 
 	self.ProgressLabel = self:Add( "DLabel" )
-	self.ProgressLabel:SetText( "-" )
+	self.ProgressLabel:SetText( "" )
 	self.ProgressLabel:SetContentAlignment( 7 )
 	self.ProgressLabel:SetVisible( false )
 	self.ProgressLabel:SetTextColor( Color( 255, 255, 255, 50 ) )
 
 	self.TotalsLabel = self:Add( "DLabel" )
-	self.TotalsLabel:SetText( "-" )
+	self.TotalsLabel:SetText( "" )
 	self.TotalsLabel:SetContentAlignment( 7 )
 	self.TotalsLabel:SetVisible( false )
 	self.TotalsLabel:SetTextColor( Color( 255, 255, 255, 50 ) )
@@ -105,6 +105,14 @@ function PANEL:FinishedDownloading( id, title )
 	--self.ProgressLabel:Hide()
 	--self.TotalsLabel:Hide()
 	--self.Rocket:Blast()
+
+end
+
+function PANEL:SetMessage( msg )
+
+	self.Label:SetText( msg )
+
+	self:SetDrawProgress( false )
 
 end
 
@@ -179,7 +187,19 @@ end
 
 function PANEL:UpdateTotalProgress( completed, iTotal )
 
-	self.TotalsLabel:SetText( "Addon "..completed.." of "..iTotal )
+	self.TotalsLabel:SetText( "Addon " .. completed .. " of " .. iTotal )
 	self.TotalProgress = completed / iTotal
+
+end
+
+function PANEL:SubscriptionsProgress( iCurrent, iTotal )
+
+	self.Label:SetText( "#ugc.fetching" )
+	self:SetDrawProgress( true )
+
+	self.Progress = iCurrent / iTotal
+
+	self.ProgressLabel:Show()
+	self.ProgressLabel:SetText( iCurrent .. " of " .. iTotal )
 
 end

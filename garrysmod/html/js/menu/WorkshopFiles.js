@@ -21,6 +21,9 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 	this.Scope.Loading			= true;
 	this.Scope.PerPage			= 5;
 
+	// Addon Subscriptions menu exclusive
+	this.Scope.SubscriptionSearchText = "";
+
 	this.Scope.Go = function( delta )
 	{
 		if ( scope.Offset + delta >= scope.TotalResults ) return;
@@ -31,7 +34,7 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 
 	this.Scope.GoToPage = function( page )
 	{
-		var Offset = (page-1) * scope.PerPage;
+		var Offset = ( page - 1 ) * scope.PerPage;
 
 		if ( Offset >= scope.TotalResults ) return;
 		if ( Offset < 0 ) return;
@@ -39,15 +42,32 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 		scope.SwitchWithTag( scope.Category, Offset, scope.Tagged, scope.MapName )
 	}
 
-
 	this.Scope.Switch = function( type, offset )
 	{
 		this.SwitchWithTag( type, offset, "", scope.MapName );
 		scope.Category = type; // Do we need this here?
 	}
 
+	this.Scope.HandleFilterChange = function( which )
+	{
+		if ( which == 1 ) scope.FilerDisabledOnly = false;
+		if ( which == 0 ) scope.FilerEnabledOnly = false;
+		scope.SwitchWithTag( scope.Category, 0, scope.Tagged, scope.MapName )
+	}
+
+	var hackyWackyTimer = 0;
+	this.Scope.HandleOnSearch = function()
+	{
+		clearTimeout( hackyWackyTimer );
+		hackyWackyTimer = setTimeout( function() {
+			scope.SwitchWithTag( scope.Category, 0, scope.Tagged, scope.MapName )
+		}, 500 );
+	}
+
 	this.Scope.SwitchWithTag = function( type, offset, searchtag, mapname )
 	{
+		clearTimeout( hackyWackyTimer );
+
 		// Fills in perpage
 		self.RefreshDimensions();
 
@@ -66,6 +86,10 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 			RootScope.Tagged		= searchtag;
 		}
 
+		var filter = "";
+		if ( scope.FilerEnabledOnly ) filter = "enabledonly";
+		if ( scope.FilerDisabledOnly ) filter = "disabledonly";
+
 		self.UpdatePageNav();
 
 		if ( !IN_ENGINE )
@@ -76,11 +100,11 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 		{
 			// fumble
 			if ( scope.MapName && scope.Tagged ) {
-				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.Tagged, scope.MapName );
+				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.Tagged + "," + scope.MapName, scope.SubscriptionSearchText, filter );
 			} else if ( scope.MapName ) {
-				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.MapName );
+				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.MapName, scope.SubscriptionSearchText, filter );
 			} else {
-				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.Tagged );
+				gmod.FetchItems( self.NameSpace, scope.Category, scope.Offset, scope.PerPage, scope.Tagged, scope.SubscriptionSearchText, filter );
 			}
 		}
 	}
@@ -96,9 +120,9 @@ WorkshopFiles.prototype.Init = function( namespace, scope, RootScope )
 		gmod.Vote( entry.id, ( b ? "1" : "0" ) )
 
 		// Update the scores locally (the votes don't update on the server straight away)
-		if ( entry.vote )
+		if ( entry.info )
 		{
-			if ( b ) entry.vote.up++; else entry.vote.down++;
+			if ( b ) entry.info.up++; else entry.info.down++;
 		}
 
 		// And play a sound
@@ -192,6 +216,22 @@ WorkshopFiles.prototype.ReceiveFileInfo = function( id, data )
 },
 
 //
+// ReceiveUserName
+//
+WorkshopFiles.prototype.ReceiveUserName = function( id, data )
+{
+	for ( k in this.Scope.Files )
+	{
+		if ( !this.Scope.Files[k].filled || !this.Scope.Files[k] || this.Scope.Files[k].info.owner != id ) continue;
+
+		this.Scope.Files[k].filled	= true;
+		this.Scope.Files[k].info.ownername = data;
+
+		this.Changed();
+	}
+},
+
+//
 // ReceiveImage
 //
 WorkshopFiles.prototype.ReceiveImage = function( id, url )
@@ -204,21 +244,6 @@ WorkshopFiles.prototype.ReceiveImage = function( id, url )
 		this.Changed();
 	}
 },
-
-//
-// Receive Vote Info
-//
-WorkshopFiles.prototype.ReceiveVoteInfo = function( id, data )
-{
-	for ( k in this.Scope.Files )
-	{
-		if ( this.Scope.Files[k].id != id ) continue;
-
-		this.Scope.Files[k].vote = data;
-
-		this.Changed();
-	}
-}
 
 WorkshopFiles.prototype.Changed = function()
 {
@@ -240,8 +265,8 @@ WorkshopFiles.prototype.Changed = function()
 
 WorkshopFiles.prototype.RefreshDimensions = function()
 {
-	var w = $( "workshopcontainer" ).width();
-	var h = $( "workshopcontainer" ).height() - 48;
+	var w = Math.max( 480, $( "workshopcontainer" ).width() );
+	var h = Math.max( 320, $( "workshopcontainer" ).height() - 48 );
 
 	var iconswide = Math.floor( w / 180 );
 	var iconstall = Math.floor( h / 180 );

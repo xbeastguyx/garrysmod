@@ -21,7 +21,7 @@ cleanup.Register( "lights" )
 
 function TOOL:LeftClick( trace, attach )
 
-	if trace.Entity && trace.Entity:IsPlayer() then return false end
+	if ( IsValid( trace.Entity ) && trace.Entity:IsPlayer() ) then return false end
 	if ( CLIENT ) then return true end
 	if ( attach == nil ) then attach = true end
 
@@ -35,7 +35,7 @@ function TOOL:LeftClick( trace, attach )
 	local r = math.Clamp( self:GetClientNumber( "r" ), 0, 255 )
 	local g = math.Clamp( self:GetClientNumber( "g" ), 0, 255 )
 	local b = math.Clamp( self:GetClientNumber( "b" ), 0, 255 )
-	local brght = math.Clamp( self:GetClientNumber( "brightness" ), 0, 255 )
+	local brght = math.Clamp( self:GetClientNumber( "brightness" ), 0, 20 )
 	local size = self:GetClientNumber( "size" )
 	local toggle = self:GetClientNumber( "toggle" ) != 1
 
@@ -182,9 +182,7 @@ function TOOL:UpdateGhostLight( ent, pl )
 	if ( !IsValid( ent ) ) then return end
 
 	local trace = pl:GetEyeTrace()
-	if ( !trace.Hit ) then return end
-
-	if ( trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_light" ) then
+	if ( !trace.Hit || IsValid( trace.Entity ) && ( trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_light" ) ) then
 
 		ent:SetNoDraw( true )
 		return

@@ -42,6 +42,20 @@ if ( !sql.TableExists( "playerpdata" ) ) then
 end
 
 -- These are totally in the wrong place.
+function player.GetByAccountID( ID )
+
+	for _, pl in pairs( player.GetAll() ) do
+
+		if ( pl:AccountID() == ID ) then
+			return pl
+		end
+
+	end
+
+	return false
+
+end
+
 function player.GetByUniqueID( ID )
 
 	for _, pl in pairs( player.GetAll() ) do
@@ -101,8 +115,8 @@ function meta:DebugInfo()
 end
 
 -- Helpful aliases
-meta.GetName	= meta.Nick
-meta.Name		= meta.Nick
+meta.GetName = meta.Nick
+meta.Name = meta.Nick
 
 --[[---------------------------------------------------------
 	Name: ConCommand
@@ -144,7 +158,7 @@ if ( CLIENT ) then
 		end
 
 		-- Turn the table into a nil so we can return easy
-		if ( table.Count( CommandList ) == 0 ) then
+		if ( table.IsEmpty( CommandList ) ) then
 
 			CommandList = nil
 
@@ -177,7 +191,7 @@ end
 function meta:SetPData( name, value )
 
 	name = Format( "%s[%s]", self:UniqueID(), name )
-	sql.Query( "REPLACE INTO playerpdata ( infoid, value ) VALUES ( " .. SQLStr( name ) .. ", " .. SQLStr( value ) .. " )" )
+	return sql.Query( "REPLACE INTO playerpdata ( infoid, value ) VALUES ( " .. SQLStr( name ) .. ", " .. SQLStr( value ) .. " )" ) ~= false
 
 end
 
@@ -188,14 +202,14 @@ end
 function meta:RemovePData( name )
 
 	name = Format( "%s[%s]", self:UniqueID(), name )
-	sql.Query( "DELETE FROM playerpdata WHERE infoid = " .. SQLStr( name ) )
+	return sql.Query( "DELETE FROM playerpdata WHERE infoid = " .. SQLStr( name ) ) ~= false
 
 end
 
 --
 -- If they have their preferred default weapon then switch to it
 --
-function meta:SwitchToDefaultWeapon( name )
+function meta:SwitchToDefaultWeapon()
 
 	local weapon = self:GetInfo( "cl_defaultweapon" )
 
@@ -209,7 +223,7 @@ end
 -- Can use flashlight?
 --
 function meta:AllowFlashlight( bAble ) self.m_bFlashlight = bAble end
-function meta:CanUseFlashlight() return self.m_bFlashlight end
+function meta:CanUseFlashlight() return self.m_bFlashlight == true end
 
 -- A function to set up player hands, so coders don't have to copy all the code everytime.
 -- Call this in PlayerSpawn hook
@@ -232,7 +246,7 @@ end
 -- Those functions have been removed from the engine since AddFlag and RemoveFlag
 -- made them obsolete, but we'll keep a Lua version of them for backward compatibility
 --
-if SERVER then
+if ( SERVER ) then
 
 --[[---------------------------------------------------------
 	Freeze

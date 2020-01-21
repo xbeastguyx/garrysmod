@@ -36,6 +36,11 @@ end
 -- If detective mode, announce when someone's body is found
 local bodyfound = CreateConVar("ttt_announce_body_found", "1")
 
+function GM:TTTCanIdentifyCorpse(ply, corpse, was_traitor)
+   -- return true to allow corpse identification, false to disallow
+   return true
+end
+
 local function IdentifyBody(ply, rag)
    if not ply:IsTerror() then return end
 
@@ -44,11 +49,15 @@ local function IdentifyBody(ply, rag)
       CORPSE.SetFound(rag, true)
       return
    end
+   
+   if not hook.Run("TTTCanIdentifyCorpse", ply, rag, (rag.was_role == ROLE_TRAITOR)) then
+      return
+   end
 
    local finder = ply:Nick()
    local nick = CORPSE.GetPlayerNick(rag, "")
    local traitor = (rag.was_role == ROLE_TRAITOR)
-
+   
    -- Announce body
    if bodyfound:GetBool() and not CORPSE.GetFound(rag, false) then
       local roletext = nil
@@ -169,12 +178,21 @@ local function bitsRequired(num)
    return bits
 end
 
+function GM:TTTCanSearchCorpse(ply, corpse, is_covert, is_long_range, was_traitor)
+   -- return true to allow corpse search, false to disallow.
+   return true
+end
+
 -- Send a usermessage to client containing search results
 function CORPSE.ShowSearch(ply, rag, covert, long_range)
    if not IsValid(ply) or not IsValid(rag) then return end
 
    if rag:IsOnFire() then
       LANG.Msg(ply, "body_burning")
+      return
+   end
+   
+   if not hook.Run("TTTCanSearchCorpse", ply, rag, covert, long_range, (rag.was_role == ROLE_TRAITOR)) then
       return
    end
 
@@ -189,7 +207,7 @@ function CORPSE.ShowSearch(ply, rag, covert, long_range)
    local words = rag.last_words or ""
    local hshot = rag.was_headshot or false
    local dtime = rag.time or 0
-
+   
    local owner = player.GetBySteamID(rag.sid)
    owner = IsValid(owner) and owner:EntIndex() or -1
 
@@ -368,6 +386,10 @@ function CORPSE.Create(ply, attacker, dmginfo)
 
    rag:SetPos(ply:GetPos())
    rag:SetModel(ply:GetModel())
+   rag:SetSkin(ply:GetSkin())
+   for key, value in pairs(ply:GetBodyGroups()) do
+      rag:SetBodygroup(value.id, ply:GetBodygroup(value.id))	
+   end
    rag:SetAngles(ply:GetAngles())
    rag:SetColor(ply:GetColor())
 
@@ -376,7 +398,6 @@ function CORPSE.Create(ply, attacker, dmginfo)
 
    -- nonsolid to players, but can be picked up and shot
    rag:SetCollisionGroup(rag_collide:GetBool() and COLLISION_GROUP_WEAPON or COLLISION_GROUP_DEBRIS_TRIGGER)
-   timer.Simple( 1, function() if IsValid( rag ) then rag:CollisionRulesChanged() end end )
 
    -- flag this ragdoll as being a player's
    rag.player_ragdoll = true
@@ -439,6 +460,8 @@ function CORPSE.Create(ply, attacker, dmginfo)
       local efn = ply.effect_fn
       timer.Simple(0, function() efn(rag) end)
    end
+   
+   hook.Run("TTTOnCorpseCreated", rag, ply)
 
    return rag -- we'll be speccing this
 end

@@ -68,7 +68,7 @@ function PANEL:SetMaterial( Mat )
 
 	-- Everybody makes mistakes,
 	-- that's why they put erasers on pencils.
-	if ( type( Mat ) == "string" ) then
+	if ( isstring( Mat ) ) then
 		self:SetImage( Mat )
 		return
 	end
@@ -140,12 +140,6 @@ function PANEL:FixVertexLitMaterial()
 
 end
 
-function PANEL:GetImage()
-
-	return self.ImageName
-
-end
-
 function PANEL:SizeToContents( strImage )
 
 	self:SetSize( self.ActualWidth, self.ActualHeight )
@@ -159,7 +153,7 @@ function PANEL:Paint()
 end
 
 function PANEL:PaintAt( x, y, dw, dh )
-
+	dw, dh = dw or self:GetWide(), dh or self:GetTall()
 	self:LoadMaterial()
 
 	if ( !self.m_Material ) then return true end

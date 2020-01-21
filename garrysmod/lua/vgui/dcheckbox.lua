@@ -22,6 +22,7 @@ end
 
 function PANEL:SetValue( val )
 
+	if ( tonumber( val ) == 0 ) then val = 0 end // Tobool bugs out with "0.00"
 	val = tobool( val )
 
 	self:SetChecked( val )
@@ -42,7 +43,7 @@ end
 
 function PANEL:Toggle()
 
-	if ( self:GetChecked() == nil || !self:GetChecked() ) then
+	if ( !self:GetChecked() ) then
 		self:SetValue( true )
 	else
 		self:SetValue( false )

@@ -1,6 +1,8 @@
 
 local PANEL = {}
 
+AccessorFunc( PANEL, "m_fDefaultValue", "DefaultValue" )
+
 function PANEL:Init()
 
 	self.TextArea = self:Add( "DTextEntry" )
@@ -9,6 +11,8 @@ function PANEL:Init()
 	self.TextArea:SetWide( 45 )
 	self.TextArea:SetNumeric( true )
 	self.TextArea.OnChange = function( textarea, val ) self:SetValue( self.TextArea:GetText() ) end
+	-- Causes automatic clamp to min/max, disabled for now. TODO: Enforce this with a setter/getter?
+	--self.TextArea.OnEnter = function( textarea, val ) textarea:SetText( self.Scratch:GetTextValue() ) end -- Update the text
 
 	self.Slider = self:Add( "DSlider", self )
 	self.Slider:SetLockY( 0.5 )
@@ -16,6 +20,13 @@ function PANEL:Init()
 	self.Slider:SetTrapInside( true )
 	self.Slider:Dock( FILL )
 	self.Slider:SetHeight( 16 )
+	self.Slider.Knob.OnMousePressed = function( panel, mcode )
+		if ( mcode == MOUSE_MIDDLE ) then
+			self:ResetToDefaultValue()
+			return
+		end
+		self.Slider:OnMousePressed( mcode )
+	end
 	Derma_Hook( self.Slider, "Paint", "Paint", "NumSlider" )
 
 	self.Label = vgui.Create ( "DLabel", self )
@@ -65,12 +76,18 @@ function PANEL:GetRange()
 	return self:GetMax() - self:GetMin()
 end
 
+function PANEL:ResetToDefaultValue()
+	if ( !self:GetDefaultValue() ) then return end
+	self:SetValue( self:GetDefaultValue() )
+end
+
 function PANEL:SetMin( min )
 
 	if ( !min ) then min = 0 end
 
 	self.Scratch:SetMin( tonumber( min ) )
 	self:UpdateNotches()
+
 end
 
 function PANEL:SetMax( max )
@@ -79,17 +96,18 @@ function PANEL:SetMax( max )
 
 	self.Scratch:SetMax( tonumber( max ) )
 	self:UpdateNotches()
+
 end
 
 function PANEL:SetValue( val )
 
 	val = math.Clamp( tonumber( val ) || 0, self:GetMin(), self:GetMax() )
-	
+
 	if ( self:GetValue() == val ) then return end
 
-	self.Scratch:SetValue( val )
+	self.Scratch:SetValue( val ) -- This will also call ValueChanged
 
-	self:ValueChanged( self:GetValue() )
+	self:ValueChanged( self:GetValue() ) -- In most cases this will cause double execution of OnValueChanged
 
 end
 
@@ -100,6 +118,7 @@ end
 function PANEL:SetDecimals( d )
 	self.Scratch:SetDecimals( d )
 	self:UpdateNotches()
+	self:ValueChanged( self:GetValue() ) -- Update the text
 end
 
 function PANEL:GetDecimals()
@@ -112,6 +131,12 @@ end
 function PANEL:IsEditing()
 
 	return self.Scratch:IsEditing() || self.TextArea:IsEditing() || self.Slider:IsEditing()
+
+end
+
+function PANEL:IsHovered()
+
+	return self.Scratch:IsHovered() || self.TextArea:IsHovered() || self.Slider:IsHovered() || vgui.GetHoveredPanel() == self
 
 end
 
@@ -130,15 +155,19 @@ function PANEL:SetText( text )
 	self.Label:SetText( text )
 end
 
+function PANEL:GetText()
+	return self.Label:GetText()
+end
+
 function PANEL:ValueChanged( val )
 
 	val = math.Clamp( tonumber( val ) || 0, self:GetMin(), self:GetMax() )
 
-	self.Slider:SetSlideX( self.Scratch:GetFraction( val ) )
-
 	if ( self.TextArea != vgui.GetKeyboardFocus() ) then
 		self.TextArea:SetValue( self.Scratch:GetTextValue() )
 	end
+
+	self.Slider:SetSlideX( self.Scratch:GetFraction( val ) )
 
 	self:OnValueChanged( val )
 
@@ -177,6 +206,13 @@ function PANEL:UpdateNotches()
 
 end
 
+function PANEL:SetEnabled( b )
+	self.TextArea:SetEnabled( b )
+	self.Slider:SetEnabled( b )
+	self.Scratch:SetEnabled( b )
+	FindMetaTable( "Panel" ).SetEnabled( self, b ) -- There has to be a better way!
+end
+
 function PANEL:GenerateExample( ClassName, PropertySheet, Width, Height )
 
 	local ctrl = vgui.Create( ClassName )
@@ -206,11 +242,11 @@ function PANEL:PostMessage( name, _, val )
 	end
 
 	if ( name == "SetLower" ) then
-		self:SetMin( tonumber(val) )
+		self:SetMin( tonumber( val ) )
 	end
 
 	if ( name == "SetHigher" ) then
-		self:SetMax( tonumber(val) )
+		self:SetMax( tonumber( val ) )
 	end
 
 	if ( name == "SetValue" ) then

@@ -33,8 +33,13 @@ local function IsDebug() return config.debug:GetBool() end
 
 local math = math
 
+cvars.AddChangeCallback("ttt_karma_max", function(cvar, old, new)
+   SetGlobalInt("ttt_karma_max", new)
+end)
+
 function KARMA.InitState()
    SetGlobalBool("ttt_karma", config.enabled:GetBool())
+   SetGlobalInt("ttt_karma_max", config.max:GetFloat())
 end
 
 function KARMA.IsEnabled()
@@ -197,7 +202,7 @@ function KARMA.RoundIncrement()
    local healbonus = config.roundheal:GetFloat()
    local cleanbonus = config.clean:GetFloat()
 
-   for _, ply in pairs(player.GetAll()) do
+   for _, ply in ipairs(player.GetAll()) do
       if ply:IsDeadTerror() and ply.death_type ~= KILL_SUICIDE or not ply:IsSpec() then
          local bonus = healbonus + (ply:GetCleanRound() and cleanbonus or 0)
          KARMA.GiveReward(ply, bonus)
@@ -213,7 +218,7 @@ end
 
 -- When a new round starts, Live karma becomes Base karma
 function KARMA.Rebase()
-   for _, ply in pairs(player.GetAll()) do
+   for _, ply in ipairs(player.GetAll()) do
       if IsDebug() then
          print(ply, "rebased from", ply:GetBaseKarma(), "to", ply:GetLiveKarma())
       end
@@ -224,7 +229,7 @@ end
 
 -- Apply karma to damage factor for all players
 function KARMA.ApplyKarmaAll()
-   for _, ply in pairs(player.GetAll()) do
+   for _, ply in ipairs(player.GetAll()) do
       KARMA.ApplyKarma(ply)
    end
 end
@@ -254,7 +259,7 @@ function KARMA.RoundEnd()
       KARMA.RememberAll()
 
       if config.autokick:GetBool() then
-         for _, ply in pairs(player.GetAll()) do
+         for _, ply in ipairs(player.GetAll()) do
             KARMA.CheckAutoKick(ply)
          end
       end
@@ -265,7 +270,7 @@ function KARMA.RoundBegin()
    KARMA.InitState()
 
    if KARMA.IsEnabled() then
-      for _, ply in pairs(player.GetAll()) do
+      for _, ply in ipairs(player.GetAll()) do
          KARMA.ApplyKarma(ply)
 
          KARMA.NotifyPlayer(ply)
@@ -323,7 +328,7 @@ function KARMA.LateRecallAndSet(ply)
 end
 
 function KARMA.RememberAll()
-   for _, ply in pairs(player.GetAll()) do
+   for _, ply in ipairs(player.GetAll()) do
       KARMA.Remember(ply)
    end
 end
@@ -355,7 +360,7 @@ function KARMA.CheckAutoKick(ply)
 end
 
 function KARMA.PrintAll(printfn)
-   for _, ply in pairs(player.GetAll()) do
+   for _, ply in ipairs(player.GetAll()) do
       printfn(Format("%s : Live = %f -- Base = %f -- Dmg = %f\n",
                      ply:Nick(),
                      ply:GetLiveKarma(), ply:GetBaseKarma(),

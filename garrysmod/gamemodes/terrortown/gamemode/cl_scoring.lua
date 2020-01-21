@@ -63,7 +63,7 @@ function CLSCORE.DeclareEventDisplay(event_id, event_fns)
    if not tonumber(event_id) then
       Error("Event ??? display: invalid event id\n")
    end
-   if (not event_fns) or type(event_fns) != "table" then
+   if (not event_fns) or not istable(event_fns) then
       Error(Format("Event %d display: no display functions found.\n", event_id))
    end
    if not event_fns.text then
@@ -136,7 +136,6 @@ function CLSCORE:BuildScorePanel(dpanel)
    dlist:SetSize(w, h)
    dlist:SetSortable(true)
    dlist:SetMultiSelect(false)
-   dlist:SetPaintBackground(false)
 
    local colnames = {"", "col_player", "col_role", "col_kills1", "col_kills2", "col_points", "col_team", "col_total"}
    for k, name in pairs(colnames) do
@@ -519,9 +518,9 @@ function CLSCORE:ReportEvents(events)
    self:ShowPanel()
 end
 
-function CLSCORE:Reopen()
-   if self.Panel and self.Panel:IsValid() and not self.Panel:IsVisible() then
-      self.Panel:SetVisible(true)
+function CLSCORE:Toggle()
+   if IsValid(self.Panel) then
+      self.Panel:ToggleVisible()
    end
 end
 

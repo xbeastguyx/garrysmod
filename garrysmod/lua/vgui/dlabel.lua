@@ -10,13 +10,15 @@ AccessorFunc( PANEL, "m_bAutoStretchVertical",	"AutoStretchVertical",		FORCE_BOO
 AccessorFunc( PANEL, "m_bIsMenuComponent",		"IsMenu",					FORCE_BOOL )
 
 AccessorFunc( PANEL, "m_bBackground",	"PaintBackground",	FORCE_BOOL )
-AccessorFunc( PANEL, "m_bBackground",	"DrawBackground",	FORCE_BOOL ) -- deprecated
-AccessorFunc( PANEL, "m_bHighlight",	"Highlight",		FORCE_BOOL )
-AccessorFunc( PANEL, "m_bIsToggle",		"IsToggle",			FORCE_BOOL )
-AccessorFunc( PANEL, "m_bDisabled",		"Disabled",			FORCE_BOOL )
-AccessorFunc( PANEL, "m_bToggle",		"Toggle",			FORCE_BOOL )
-AccessorFunc( PANEL, "m_bBright",		"Bright",			FORCE_BOOL )
-AccessorFunc( PANEL, "m_bDark",			"Dark",				FORCE_BOOL )
+AccessorFunc( PANEL, "m_bBackground",	"DrawBackground",	FORCE_BOOL ) -- deprecated, see line above
+AccessorFunc( PANEL, "m_bDisabled",		"Disabled",			FORCE_BOOL ) -- deprecated, use SetEnabled/IsEnabled isntead
+
+AccessorFunc( PANEL, "m_bIsToggle",		"IsToggle",		FORCE_BOOL )
+AccessorFunc( PANEL, "m_bToggle",		"Toggle",		FORCE_BOOL )
+
+AccessorFunc( PANEL, "m_bBright",		"Bright",		FORCE_BOOL )
+AccessorFunc( PANEL, "m_bDark",			"Dark",			FORCE_BOOL )
+AccessorFunc( PANEL, "m_bHighlight",	"Highlight",	FORCE_BOOL )
 
 function PANEL:Init()
 
@@ -54,12 +56,58 @@ function PANEL:SetTextColor( clr )
 end
 PANEL.SetColor = PANEL.SetTextColor
 
+function PANEL:GetColor()
+
+	return self.m_colText || self.m_colTextStyle
+
+end
+
 function PANEL:UpdateFGColor()
 
-	local col = self.m_colTextStyle
-	if ( self.m_colText ) then col = self.m_colText end
+	local col = self:GetTextStyleColor()
+	if ( self:GetTextColor() ) then col = self:GetTextColor() end
+
+	if ( !col ) then return end
 
 	self:SetFGColor( col.r, col.g, col.b, col.a )
+
+end
+
+function PANEL:Toggle()
+
+	if ( !self:GetIsToggle() ) then return end
+
+	self:SetToggle( !self:GetToggle() )
+	self:OnToggled( self:GetToggle() )
+
+end
+
+function PANEL:SetDisabled( bDisabled )
+
+	self.m_bDisabled = bDisabled
+	self:InvalidateLayout()
+
+end
+
+function PANEL:SetEnabled( bEnabled )
+
+	self:SetDisabled( !bEnabled )
+
+end
+
+function PANEL:IsEnabled()
+
+	return !self:GetDisabled()
+
+end
+
+function PANEL:UpdateColours( skin )
+
+	if ( self:GetBright() ) then return self:SetTextStyleColor( skin.Colours.Label.Bright ) end
+	if ( self:GetDark() ) then return self:SetTextStyleColor( skin.Colours.Label.Dark ) end
+	if ( self:GetHighlight() ) then return self:SetTextStyleColor( skin.Colours.Label.Highlight ) end
+
+	return self:SetTextStyleColor( skin.Colours.Label.Default )
 
 end
 
@@ -73,7 +121,7 @@ end
 
 function PANEL:Think()
 
-	if ( self.m_bAutoStretchVertical ) then
+	if ( self:GetAutoStretchVertical() ) then
 		self:SizeToContentsY()
 	end
 
@@ -85,11 +133,6 @@ function PANEL:PerformLayout()
 
 end
 
-function PANEL:GetColor()
-
-	return self.m_colTextStyle
-
-end
 
 function PANEL:OnCursorEntered()
 
@@ -141,19 +184,18 @@ function PANEL:OnMousePressed( mousecode )
 
 end
 
-function PANEL:OnDepressed()
-end
-
 function PANEL:OnMouseReleased( mousecode )
 
 	self:MouseCapture( false )
 
 	if ( self:GetDisabled() ) then return end
-	if ( !self.Depressed ) then return end
+	if ( !self.Depressed && dragndrop.m_DraggingMain != self ) then return end
 
-	self.Depressed = nil
-	self:OnReleased()
-	self:InvalidateLayout( true )
+	if ( self.Depressed ) then
+		self.Depressed = nil
+		self:OnReleased()
+		self:InvalidateLayout( true )
+	end
 
 	--
 	-- If we were being dragged then don't do the default behaviour!
@@ -161,7 +203,7 @@ function PANEL:OnMouseReleased( mousecode )
 	if ( self:DragMouseRelease( mousecode ) ) then
 		return
 	end
-
+	
 	if ( self:IsSelectable() && mousecode == MOUSE_LEFT ) then
 
 		local canvas = self:GetSelectionCanvas()
@@ -203,10 +245,10 @@ end
 function PANEL:OnReleased()
 end
 
-function PANEL:DoRightClick()
+function PANEL:OnDepressed()
 end
 
-function PANEL:DoMiddleClick()
+function PANEL:OnToggled( bool )
 end
 
 function PANEL:DoClick()
@@ -215,16 +257,10 @@ function PANEL:DoClick()
 
 end
 
-function PANEL:Toggle()
-
-	if ( !self:GetIsToggle() ) then return end
-
-	self.m_bToggle = !self.m_bToggle
-	self:OnToggled( self.m_bToggle )
-
+function PANEL:DoRightClick()
 end
 
-function PANEL:OnToggled( bool )
+function PANEL:DoMiddleClick()
 end
 
 function PANEL:DoClickInternal()
@@ -234,16 +270,6 @@ function PANEL:DoDoubleClick()
 end
 
 function PANEL:DoDoubleClickInternal()
-end
-
-function PANEL:UpdateColours( skin )
-
-	if ( self.m_bBright ) then return self:SetTextStyleColor( skin.Colours.Label.Bright ) end
-	if ( self.m_bDark ) then return self:SetTextStyleColor( skin.Colours.Label.Dark ) end
-	if ( self.m_bHighlight ) then return self:SetTextStyleColor( skin.Colours.Label.Highlight ) end
-
-	return self:SetTextStyleColor( skin.Colours.Label.Default )
-
 end
 
 function PANEL:GenerateExample( ClassName, PropertySheet, Width, Height )

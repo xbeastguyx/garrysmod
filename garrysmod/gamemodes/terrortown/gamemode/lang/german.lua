@@ -12,30 +12,30 @@ L.terrorists = "Terroristen"
 L.spectators = "Zuschauer"
 
 --- Round status messages
-L.round_minplayers = "Nicht genug Spieler um eine neue Runde zu beginnen..."
-L.round_voting     = "Es läuft eine Umfrage, verzögere neue Runde um {num} Sekunden..."
-L.round_begintime  = "Eine neue Runde beginnt in {num} Sekunden. Bereite dich vor."
+L.round_minplayers = "Zu wenig Spieler um eine neue Runde zu beginnen..."
+L.round_voting     = "Es läuft eine Umfrage, verzögere neue Runde um {num} Sekunde(n)..."
+L.round_begintime  = "Eine neue Runde beginnt in {num} Sekunde(n). Bereite dich vor."
 L.round_selected   = "Die Verräter wurden ausgewählt."
 L.round_started    = "Die Runde hat begonnen!"
 L.round_restart    = "Ein Admin erzwang den Neustart der Runde."
 
-L.round_traitors_one  = "Verräter, du bist allein."
+L.round_traitors_one  = "Verräter, du bist alleine."
 L.round_traitors_more = "Verräter, dies sind die Namen deiner Verbündeten: {names}"
 
 L.win_time         = "Die Zeit ist abgelaufen. Die Verräter haben verloren."
 L.win_traitor      = "Die Verräter haben gewonnen!"
 L.win_innocent     = "Die Verräter wurden besiegt!"
-L.win_showreport   = "Schauen wir uns den Runden Report für {num} Sekunden an."
+L.win_showreport   = "Schauen wir uns den Rundenbericht die nächste(n) {num} Sekunde(n) an."
 
 L.limit_round      = "Rundenlimit erreicht. {mapname} wird bald geladen."
 L.limit_time       = "Zeitlimit erreicht. {mapname} wird bald geladen."
-L.limit_left       = "{num} Runde(n) oder {time} Minuten verbleibend bis die Map zu {mapname} gewechselt wird."
+L.limit_left       = "{num} Runde(n) oder {time} Minute(n) verbleibend bis die Map zu {mapname} gewechselt wird."
 
 --- Credit awards
-L.credit_det_all   = "Detektive, euch wurde(n) {num} Ausrüstungs-Credit(s) für eure Performance gegeben."
-L.credit_tr_all    = "Verräter, euch wurde(n) {num} Ausrüstungs-Credit(s) für eure Performance gegeben."
+L.credit_det_all   = "Detektive, euch wurde(n) {num} Ausrüstungs-Credit(s) für eure Leistung gegeben."
+L.credit_tr_all    = "Verräter, euch wurde(n) {num} Ausrüstungs-Credit(s) für eure Leistung gegeben."
 
-L.credit_kill      = "Dir wurde(n) {num} Credit(s) für das Töten eines {role} gegeben."
+L.credit_kill      = "Dir wurde(n) {num} Credit(s) gegeben, da du einen {role} getötet hast."
 
 --- Karma
 L.karma_dmg_full   = "Dein Karma ist {amount}, also verteilst du diese Runde vollen Schaden!"
@@ -55,7 +55,7 @@ L.body_call        = "{player} rief einen Detektiv zum Körper von {victim}!"
 L.body_call_error  = "Du musst erst den Tod dieses Spielers bestätigen, bevor du einen Detektiv rufen kannst!"
 
 L.body_burning     = "Autsch! Diese Leiche brennt lichterloh!"
-L.body_credits     = "Du fandest {num} Credit(s) an diesem Körper!"
+L.body_credits     = "Du hast {num} Credit(s) an diesem Körper gefunden!"
 
 --- Menus and windows
 L.close  = "Schließen"
@@ -66,10 +66,9 @@ L.next = "Weiter"
 L.prev = "Zurück"
 
 -- Equipment buying menu
-L.equip_title     = "Ausrüstug"
-L.equip_tabtitle  = "Sortiere Ausrüstung"
+L.equip_title     = "Ausrüstung"
+L.equip_tabtitle  = "Ausrüstung bestellen"
 
-L.equip_status    = "Sortierungsstatus"
 L.equip_cost      = "Du hast {num} Credit(s) übrig."
 L.equip_help_cost = "Jedes Ausrüstungsteil, das du kaufst, kostet 1 Credit."
 
@@ -92,20 +91,20 @@ L.equip_confirm    = "Ausrüstung kaufen"
 
 -- Disguiser tab in equipment menu
 L.disg_name      = "Tarnung"
-L.disg_menutitle = "Tarnung Einstellungen"
+L.disg_menutitle = "Tarnung-Einstellungen"
 L.disg_not_owned = "Du trägst keine Tarnung!"
 L.disg_enable    = "Tarnung aktivieren"
 
 L.disg_help1     = "Wenn deine Tarnung aktiv ist, werden dein Name, Leben und Karma nicht angezeigt, wenn dich jemand anschaut. Zusätzlich tauchst du nicht auf dem Radar des Detektivs auf."
-L.disg_help2     = "Drücke Enter auf dem Numpad um die Tarnung an oder aus zu schalten, ohne das Menü zu nutzen. Du kannst alternativ 'ttt_toggle_diguise' mit der Konsole auf eine andere Taste legen."
+L.disg_help2     = "Drücke Enter auf dem Numpad um die Tarnung an oder aus zu schalten, ohne das Menü zu nutzen. Du kannst alternativ 'ttt_toggle_diguise' durch die Konsole auf eine andere Taste legen."
 
 -- Radar tab in equipment menu
 L.radar_name      = "Radar"
-L.radar_menutitle = "Radar Einstellungen"
+L.radar_menutitle = "Radar-Einstellungen"
 L.radar_not_owned = "Du trägst kein Radar!"
 L.radar_scan      = "Scan durchführen"
 L.radar_auto      = "Scan automatisch wiederholen"
-L.radar_help      = "Scan Ergebnisse werden {num} Sekunden angezeigt, danach ist das Radar wieder aufgeladen und kann erneut genutzt werden."
+L.radar_help      = "Scan-Ergebnisse werden {num} Sekunden angezeigt, danach ist das Radar wieder aufgeladen und kann erneut genutzt werden."
 L.radar_charging  = "Dein Radar lädt immer noch auf!"
 
 -- Transfer tab in equipment menu
@@ -113,17 +112,17 @@ L.xfer_name       = "Transfer"
 L.xfer_menutitle  = "Credits transferieren"
 L.xfer_no_credits = "Du kannst keine Credits abgeben!"
 L.xfer_send       = "Sende einen Credit"
-L.xfer_help       = "Du kannst Credits nur an weitere {role} Spieler senden."
+L.xfer_help       = "Du kannst Credits nur an weitere {role} senden."
 
-L.xfer_no_recip   = "Der Empfänger ist ungültig, Credit Transfer abgebrochen."
+L.xfer_no_recip   = "Der Empfänger ist ungültig, Credit-Transfer abgebrochen."
 L.xfer_no_credits = "Ungenügend Credits für einen Transfer."
-L.xfer_success    = "Credits Transfer an {player} abgeschlossen."
+L.xfer_success    = "Credit-Transfer an {player} abgeschlossen."
 L.xfer_received   = "{player} gab dir {num} Credit(s)."
 
 -- Radio tab in equipment menu
 L.radio_name      = "Radio"
-L.radio_help      = "Drücke einen Knopf um das Radio den Sound abspielen zu lassen."
-L.radio_notplaced = "Du musst das Radio platzieren um einen Sound abspielen zu lassen."
+L.radio_help      = "Drücke einen Knopf um das Radio den Ton abspielen zu lassen."
+L.radio_notplaced = "Du musst das Radio platzieren um einen Ton abspielen zu lassen."
 
 -- Radio soundboard buttons
 L.radio_button_scream  = "Schrei"
@@ -134,8 +133,8 @@ L.radio_button_deagle  = "Deagle-Schuss"
 L.radio_button_mac10   = "MAC10-Schuss"
 L.radio_button_shotgun = "Shotgun-Schuss"
 L.radio_button_rifle   = "Gewehr-Schuss"
-L.radio_button_huge    = "H.U.G.E Salve"
-L.radio_button_c4      = "C4 Piepen"
+L.radio_button_huge    = "H.U.G.E-Salve"
+L.radio_button_c4      = "C4-Piepen"
 L.radio_button_burn    = "Brennen"
 L.radio_button_steps   = "Schritte"
 
@@ -144,7 +143,7 @@ L.radio_button_steps   = "Schritte"
 L.intro_help     = "Wenn du zum ersten Mal spielst, dann drücke F1 für Instruktionen!"
 
 -- Radiocommands/quickchat
-L.quick_title   = "Quickchat Befehle"
+L.quick_title   = "Quickchat-Befehle"
 
 L.quick_yes     = "Ja."
 L.quick_no      = "Nein."
@@ -158,16 +157,16 @@ L.quick_check   = "Lebt noch irgendjemand?"
 
 -- {player} in the quickchat text normally becomes a player nickname, but can
 -- also be one of the below.  Keep these lowercase.
-L.quick_nobody    = "niemand"
-L.quick_disg      = "jemand in Tarnung"
-L.quick_corpse    = "einen unidentifizierten Körper"
+L.quick_nobody    = "niemand(en)"
+L.quick_disg      = "jemand(en) in Tarnung"
+L.quick_corpse    = "ein(en) unidentifizierten/r Körper"
 L.quick_corpse_id = "{player}'s Leiche"
 
 
 --- Body search window
 L.search_title   = "Ergebnisse der Leichenuntersuchung"
 L.search_info    = "Information"
-L.search_confirm = "Tot bestätigen"
+L.search_confirm = "Tod bestätigen"
 L.search_call    = "Detektiv rufen"
 
 -- Descriptions of pieces of information found
@@ -177,25 +176,25 @@ L.search_role_t = "Diese Person war ein Verräter!"
 L.search_role_d = "Diese Person war ein Detektiv."
 L.search_role_i = "Diese Person war ein unschuldiger Terrorist!"
 
-L.search_words  = "Etwas sagt dir, dass die letzten Worte der Person '{lastwords}' waren."
-L.search_armor  = "Sie trug eine nicht-standard Körperrüstung."
+L.search_words  = "Etwas sagt dir, dass die letzten Worte dieser Person \"{lastwords}\" waren."
+L.search_armor  = "Sie trug eine nicht-standardmäßige Körperrüstung."
 L.search_disg   = "Sie trug ein Gerät, dass ihre Identität verstecken konnte."
-L.search_radar  = "Sie trug eine Form eines Radars. Es funktioniert nicht länger."
+L.search_radar  = "Sie trug eine Form eines Radars. Er funktioniert nicht länger."
 L.search_c4     = "In der Tasche war eine Notiz. Sie besagt, dass das Durchschneiden des Drahtes {num} die Bombe sicher entschärfen wird."
 
-L.search_dmg_crush  = "Viele seiner Knochen sind gebrochen. Es scheint, als habe der Einschlag eines schweren Objekts zum Tode geführt."
-L.search_dmg_bullet = "Es ist offensichtlich, dass er erschossen wurde."
-L.search_dmg_fall   = "Er fiel in seinen Tod."
-L.search_dmg_boom   = "Seine Wunden und die versengte Kleidung weisen auf eine Explosion hin, die ihm ein Ende bereitet hat."
-L.search_dmg_club   = "Der Körper ist ramponiert und verbeult. Er wurde mit Sicherheit zu Tode geprügelt."
+L.search_dmg_crush  = "Viele Knochen des Opfers sind gebrochen. Es scheint, als habe der Einschlag eines schweren Objekts zum Tode geführt."
+L.search_dmg_bullet = "Es ist offensichtlich, dass die Person erschossen wurde."
+L.search_dmg_fall   = "Sie fiel in ihren Tod."
+L.search_dmg_boom   = "Ihre Wunden und die versengte Kleidung weisen auf eine Explosion hin, die ihr ein Ende bereitet hat."
+L.search_dmg_club   = "Der Körper ist ramponiert und verbeult. Die Person wurde mit Sicherheit zu Tode geprügelt."
 L.search_dmg_drown  = "Der Körper zeigt Anzeichen und Symptome von Ertrinken."
 L.search_dmg_stab   = "Sie wurde stark geschnitten und hatte tiefe Wunden und verblutete schlussendlich."
 L.search_dmg_burn   = "Es riecht hier nach gerösteten Terroristen..."
-L.search_dmg_tele   = "Es scheint, als sei seine DNA durch Tachyonen verunstaltet worden!"
-L.search_dmg_car    = "Als dieser Terrorist die Straße überquerte, wurde er von einem rücksichtslosen Fahrer überrollt."
-L.search_dmg_other  = "Du kannst keinen spezifischen Grund für den Tod dieses Terroristen finden."
+L.search_dmg_tele   = "Es scheint, als sei ihre DNA durch Tachyonen verunstaltet worden!"
+L.search_dmg_car    = "Als diese Person die Straße überquerte, wurde sie von einem rücksichtslosen Fahrer überrollt."
+L.search_dmg_other  = "Du kannst keinen spezifischen Grund für den Tod dieser Person finden."
 
-L.search_weapon = "Es scheint, als wurde eine {weapon} benutzt um ihn zu töten."
+L.search_weapon = "Es scheint, als wurde ein(e) {weapon} benutzt um sie zu töten."
 L.search_head   = "Die tödliche Wunde war ein Kopfschuss. Keine Zeit um zu schreien."
 L.search_time   = "Sie wurde etwa {time} getötet, bevor du die Untersuchung begonnen hast."
 L.search_dna    = "Erlange eine Probe der DNA des Mörders mit dem DNA-Scanner. Die DNA-Probe wird in etwa {time} verfallen."
@@ -207,7 +206,7 @@ L.search_eyes   = "Mit deinen Detektiv-Fähigkeiten identifizierst du die letzte
 
 -- Scoreboard
 L.sb_playing    = "Du spielst auf..."
-L.sb_mapchange  = "Karte wechselt in {num} Runden oder in {time}"
+L.sb_mapchange  = "Die Karte wechselt in {num} Runden oder in {time}"
 
 L.sb_mia        = "Vermisst"
 L.sb_confirmed  = "Definitiv Tot"
@@ -249,14 +248,14 @@ L.set_cross_disable   = "Deaktiviere das Fadenkreuz komplett"
 L.set_minimal_id      = "Minimale Ziel ID unter dem Fadenkreuz (kein Karmatext, Hinweise, etc.)"
 L.set_healthlabel     = "Zeige den Status der Gesundheit auf der Gesundheitsanzeige"
 L.set_lowsights       = "Senke Waffe beim Zielen durch Kimme und Korn"
-L.set_lowsights_tip   = "Aktiviere, dass die Waffe beim Zielen mit Kimme und Korn gesenkt wird. Dies erleichtert das Anvisieren eines Gegners, aber es wird unrealistischer aussehen."
+L.set_lowsights_tip   = "Aktiviere, dass die Waffe beim Zielen mit Kimme und Korn gesenkt wird. Dies erleichtert das Anvisieren eines Gegners, aber sieht unrealistischer aus."
 L.set_fastsw          = "Schneller Waffenwechsel"
 L.set_fastsw_tip      = "Ermögliche es durch die Waffen zu wechseln ohne das Waffenwechselmenü zu öffnen. Aktiviere das Menü, damit das Waffenwechselmenü angezeigt wird."
 L.set_fastsw_menu     = "Aktiviert das Waffenwechselmenü, selbst wenn der schnelle Waffenwechsel aktiv ist."
 L.set_fastswmenu_tip  = "Wenn der schnelle Waffenwechsel aktiv ist, wird das Waffenwechselmenü angezeigt."
 L.set_wswitch         = "Verhindere das automatische Schließen des Waffenwechselmenüs."
 L.set_wswitch_tip     = "Normalerweise schließt das Waffenwechselmenü automatisch nach ein paar Sekunden, nachdem du zuletzt gescrollet hast. Aktiviere dies, damit es geöffnet bleibt."
-L.set_cues            = "Spiele Ton ab, wenn eine Runde beginnt oder endet"
+L.set_cues            = "Spiele einen Ton ab, wenn eine Runde beginnt oder endet"
 
 
 L.set_title_play    = "Spieleinstellungen"
@@ -299,21 +298,21 @@ Standardausrüstung für Detektive.]]
 
 L.item_radar      = "Radar"
 L.item_radar_desc = [[
-Dies erlaubt dir Lebenszeichen zu scannen.
+Dies erlaubt dir nach Lebenszeichen zu scannen.
 Es startet automatisch beim Kauf.
-Stelle es im Radar Reiter dieses Menüs ein.]]
+Stelle es im Reiter "Radar" dieses Menüs ein.]]
 
 L.item_disg       = "Tarnung"
 L.item_disg_desc  = [[
 Versteckt deine ID. Vermeidet außerdem, dass du die
 Person bist, die als letztes vom Opfer gesehen wurde.
 
-Schalte es im Tarnungs Reiter ein oder aus
+Schalte es im Reiter "Tarnung" ein oder aus
 oder drücke Enter auf dem Numpad.]]
 
 -- C4
 L.c4_hint         = "Drücke {usekey} zum scharf stellen oder entschärfen."
-L.c4_no_disarm    = "Du kannst nicht das C4 eines anderen Verräters entfernen, bis dieser tot ist."
+L.c4_no_disarm    = "Du kannst das C4 eines anderen Verräters nicht entfernen, bevor dieser nicht tot ist."
 L.c4_disarm_warn  = "Eine Ladung C4, die du platziert hast, ist entschärft worden."
 L.c4_armed        = "Du hast die Bombe erfolgreich scharf gestellt."
 L.c4_disarmed     = "Du hast die Bombe erfolgreich entschärft."
@@ -324,7 +323,7 @@ L.c4_desc         = "Starke Zeitbombe."
 L.c4_arm          = "C4 scharf machen"
 L.c4_arm_timer    = "Zünder"
 L.c4_arm_seconds  = "Sekunden bis zur Detonation:"
-L.c4_arm_attempts = "Beim Versuch zu entschärfen, lösen {num} der 6 Kabel eine sofortige Detonation beim Durchschneiden aus."
+L.c4_arm_attempts = "Beim Versuch die Bombe zu entschärfen, lösen {num} der 6 Kabel eine sofortige Detonation beim Durchschneiden aus."
 
 L.c4_remove_title    = "Entfernen"
 L.c4_remove_pickup   = "C4 aufheben"
@@ -351,8 +350,8 @@ L.vis_desc        = [[
 Tatort-Visualisierungs-Gerät.
 
 Analysiere eine Leiche um zu sehen,
-wie die Leiche umgebracht wurde, aber nur,
-wenn sie erschossen wurde.]]
+wie die Person umgebracht wurde, funktioniert
+nur bei Tod durch Beschuss.]]
 
 -- Decoy
 L.decoy_name      = "Attrappe"
@@ -370,7 +369,7 @@ DNA suchen.]]
 L.defuser_name    = "Entschärfer"
 L.defuser_help    = "{primaryfire} entschärft anvisiertes C4."
 L.defuser_desc    = [[
-Entschärft sofort eine C4 Bombe.
+Entschärft sofort eine C4-Bombe.
 
 Unbegrenzt nutzbar. C4 wird leichter zu entdecken
 sein, wenn du das bei dir trägst.]]
@@ -386,7 +385,7 @@ bestimmtes Geräusch.]]
 
 -- Health station
 L.hstation_name   = "Gesundheitsstation"
-L.hstation_hint   = "Drücke {usekey} um Leben zu erhalten. Ladung: {num}."
+L.hstation_hint   = "Drücke {usekey} um Leben zu regenerieren. Ladung: {num}."
 L.hstation_broken = "Deine Gesundheitsstation wurde zerstört!"
 L.hstation_help   = "{primaryfire} platziert die Gesundheitsstation."
 
@@ -421,7 +420,7 @@ L.radio_desc      = [[
 Spielt Geräusche zur Ablenkung ab.
 
 Platziere das Radio irgendwo und spiele
-Geräusche im Radio Reiter dieses Menüs ab.]]
+Geräusche im Reiter "Radio" dieses Menüs ab.]]
 
 -- Silenced pistol
 L.sipistol_name   = "Schallgedämpfte Pistole"
@@ -433,7 +432,7 @@ nutzt normale Pistolenmunition.
 Opfer schreien nicht, wenn sie damit getötet werden.]]
 
 -- Newton launcher
-L.newton_name     = "Newton Werfer"
+L.newton_name     = "Newton Launcher"
 
 L.newton_desc     = [[
 Stoße Spieler aus einer sicheren Entfernung.
@@ -441,10 +440,10 @@ Stoße Spieler aus einer sicheren Entfernung.
 Unbegrenzt Munition, aber langsame Schussfolge.]]
 
 -- Binoculars
-L.binoc_name      = "Ferngläser"
+L.binoc_name      = "Fernglas"
 
 L.binoc_desc      = [[
-Zoom an eine Leiche heran um sie aus einer
+Zoome an eine Leiche heran um sie aus einer
 großen Entfernung zu identifizieren.
 
 Unbegrenzt nutzbar, aber das Identifizieren dauert
@@ -463,9 +462,9 @@ Nutzt normale SMG Munition.]]
 L.dna_name        = "DNA-Scanner"
 L.dna_identify    = "Die Leiche muss identifiziert sein, um die DNA des Mörders zu erhalten."
 L.dna_notfound    = "Keine Spuren von DNA am Ziel gefunden."
-L.dna_limit       = "Speicherlimit erreicht. Entferne alte Spuren um neue hinzuzufügen."
+L.dna_limit       = "Speicherlimit erreicht. Entferne alte Spuren, um neue hinzuzufügen."
 L.dna_decayed     = "Die DNA-Spur des Mörders ist verfallen."
-L.dna_killer      = "Eine Spur der DNA des Mörders von der Leiche aufgesammelt!"
+L.dna_killer      = "Es wurde eine DNA-Spur des Mörders von der Leiche aufgesammelt!"
 L.dna_no_killer   = "Die DNA konnte nicht erlangt werden (Mörder vom Server gegangen?)."
 L.dna_armed       = "Die Bombe ist scharf! Entschärfe sie zuerst!"
 L.dna_object      = "{num} neue DNA-Spuren von diesem Objekt aufgesammelt."
@@ -475,10 +474,10 @@ L.dna_desc        = [[
 Sammelt DNA-Spuren von Objekten auf
 und wird genutzt, um den Besitzer dieser ausfindig zu machen.
 
-An frischen Leichen verwenden um die DNA
+Kann an frischen Leichen verwendet werden, um die DNA
 des Mörders zu erhalten und um ihn aufzuspüren.]]
 
-L.dna_menu_title  = "DNA Scaneinstellungen"
+L.dna_menu_title  = "DNA-Scan-Einstellungen"
 L.dna_menu_sample = "DNA-Spuren an {source} gefunden"
 L.dna_menu_remove = "Ausgewählte entfernen"
 L.dna_menu_help1  = "Dies sind die DNA-Spuren, die du gesammelt hast."
@@ -520,7 +519,7 @@ L.tele_no_crouch  = "Kann nicht geduckt teleportieren!"
 L.tele_no_mark    = "Keine Stelle markiert. Markiere ein Ziel vor dem Teleportieren."
 
 L.tele_no_mark_ground = "Kann keine Teleportstelle markieren, während man nicht auf solidem Untergrund steht!"
-L.tele_no_mark_crouch = "Kann keine Teleportstelle markieren, während man kniet!"
+L.tele_no_mark_crouch = "Kann keine Teleportstelle markieren, während man geduckt ist!"
 
 L.tele_help_pri   = "{primaryfire} teleportiert dich zur markierten Stelle."
 L.tele_help_sec   = "{secondaryfire} markiert momentane Position."
@@ -528,7 +527,7 @@ L.tele_help_sec   = "{secondaryfire} markiert momentane Position."
 L.tele_desc       = [[
 Teleportiert dich zu einer zuvor markierten Stelle.
 
-Teleportieren macht Geräusche und die Anzahl der
+Das Teleportieren macht Geräusche und die Anzahl der
 Benutzungen ist begrenzt.]]
 
 -- Ammo names, shown when picked up
@@ -576,7 +575,7 @@ L.corpse_hint  = "Drücke {usekey} zum Durchsuchen. {walkkey} + {usekey} um verd
 L.target_disg  = " (GETARNT)"
 L.target_unid  = "Unidentifizierter Körper"
 
-L.target_traitor   = "VERRÄTER KOLLEGE"
+L.target_traitor   = "VERRÄTER-KOLLEGE"
 L.target_detective = "DETEKTIV"
 
 L.target_credits = "Durchsuche, um ungenutzte Credits zu erhalten."
@@ -592,10 +591,10 @@ L.disg_hud     = "Getarnt. Dein Name ist ausgeblendet."
 L.radar_hud    = "Radar bereit für nächsten Scan in: {time}"
 
 -- Spectator muting of living/dead
-L.mute_living  = "Lebende Stumm gestellt"
-L.mute_specs   = "Zuschauer Stumm gestellt"
-L.mute_all     = "Jeden Stumm gestellt"
-L.mute_off     = "Niemanden Stumm gestellt"
+L.mute_living  = "Lebende stumm gestellt"
+L.mute_specs   = "Zuschauer stumm gestellt"
+L.mute_all     = "Jeden stumm gestellt"
+L.mute_off     = "Niemanden stumm gestellt"
 
 -- Spectators and prop possession
 L.punch_title  = "PUNCH-O-METER"
@@ -696,7 +695,7 @@ L.tip20 = "Das Fernglas der Detektive kann Leichen aus großer Distanz untersuch
 
 L.tip21 = "Die Gesundheitsstation der Detektive lässt verwundeten Spielern zu, sich zu heilen. Natürlich könnten diese verwundeten Spieler auch Verräter sein..."
 
-L.tip22 = "Die Gesundheits Station zeichnet die DNA jedes Spielers auf, der diese benutzt. Detektive können somit herausfinden, wer mit der Station bereits Lebenspunkte wiederhergestellt hat."
+L.tip22 = "Die Gesundheitsstation zeichnet die DNA jedes Spielers auf, der diese benutzt. Detektive können somit herausfinden, wer mit der Station bereits Lebenspunkte wiederhergestellt hat."
 
 L.tip23 = "Anders als bei Waffen und C4 bleibt keine DNA des Platzierers auf einem Radio. Mach dir also keine Sorge darüber, ob Detektive dein Radio finden."
 
@@ -741,7 +740,7 @@ L.report_title = "Rundenbericht"
 
 -- Tabs
 L.report_tab_hilite = "Höhepunkte"
-L.report_tab_hilite_tip = "Rundenhöhepunkte"
+L.report_tab_hilite_tip = "Höhepunkte dieser Runde"
 L.report_tab_events = "Ereignis"
 L.report_tab_events_tip = "Liste der Ereignisse dieser Runde"
 L.report_tab_scores = "Punkte"
@@ -757,7 +756,7 @@ L.report_save_result = "Der Ereignis-Log wurde gespeichert:"
 L.hilite_win_traitors = "VERRATEN!"
 L.hilite_win_innocent = "ÜBERLEBT!"
 
-L.hilite_players1 = "{numplayers} Spieler nahmen teil, {numtraitors} waren Verräter."
+L.hilite_players1 = "{numplayers} Spieler nahmen teil, davon waren {numtraitors} Verräter."
 L.hilite_players2 = "{numplayers} Spieler nahmen teil, einer war ein Verräter."
 
 L.hilite_duration = "Die Runde dauerte {time}."
@@ -1037,11 +1036,14 @@ L.set_avoid_det     = "Nicht als Detektiv ausgewählt werden"
 L.set_avoid_det_tip = "Aktiviere diese Funktion, damit du nicht als Detektiv ausgewählt wirst. Das heißt nicht, dass du öfter Verräter wirst..."
 
 --- v24
-L.drop_no_ammo = "Du hast nicht genug Munition im Magazin, um eine Munitionskiste fallenzulassen."
+L.drop_no_ammo = "Du hast zu wenig Munition im Magazin, um eine Munitionskiste fallenzulassen."
 
 --- v31
 L.set_cross_brightness = "Fadenkreuz Helligkeit"
-L.set_cross_size = "Fadenkreuz Größe"
+L.set_cross_size       = "Fadenkreuz Größe"
 
 -- 5-25-15
 L.hat_retrieve = "Du hast den Hut eines Detektivs aufgehoben."
+
+--- 3-9-2017
+L.sb_sortby = "Sortiere nach:"

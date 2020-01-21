@@ -6,11 +6,12 @@ spawnmenu.AddCreationTab( "#spawnmenu.category.saves", function()
 	HTML = vgui.Create( "DHTML" )
 	JS_Language( HTML )
 	JS_Workshop( HTML )
-	HTML:OpenURL( "asset://garrysmod/html/saves.html" )
-	HTML:Call( "SetMap( '" .. game.GetMap() .. "' );" )
 
 	ws_save = WorkshopFileBase( "save", { "save" } )
 	ws_save.HTML = HTML
+
+	HTML:OpenURL( "asset://garrysmod/html/saves.html" )
+	HTML:Call( "SetMap( '" .. game.GetMap() .. "' );" )
 
 	function ws_save:FetchLocal( offset, perpage )
 
@@ -43,10 +44,9 @@ spawnmenu.AddCreationTab( "#spawnmenu.category.saves", function()
 
 	end
 
-
 	function ws_save:DownloadAndLoad( id )
 
-		steamworks.Download( id, true, function( name )
+		steamworks.DownloadUGC( id, function( name )
 
 			ws_save:Load( name )
 
